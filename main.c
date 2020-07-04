@@ -133,7 +133,6 @@ void deposito(){ //depositar dinheiro
 void cadastroCliente(){ //cadastro do cliente
     FILE * dadosCliente;
     CLIENTE cliente;
-    fflush(stdin);
     dadosCliente = fopen("dadosCliente.txt", "ab");
     if(dadosCliente == NULL){
         printf("Problemas na abertura do arquivo\n");
