@@ -13,7 +13,7 @@ struct cliente{
 
 //structs
 
-//funções
+//funçõess
 
 void menuPrincipal(){ //primeira tela do programa
     int opcao;
