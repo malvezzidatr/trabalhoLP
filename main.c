@@ -101,7 +101,7 @@ void deposito(){ //depositar dinheiro
     FILE* dadosCliente;
     float deposito;
     char nome[50];
-    dadosCliente = fopen("dadosCliente.txt", "rb");
+    dadosCliente = fopen("dadosCliente.txt", "r+b");
     if(dadosCliente == NULL){
         printf("Problemas na abertura do arquivo\n");
     }else{
@@ -167,7 +167,7 @@ void verificar(){ //para teste
     FILE * dadosCliente;
     fflush(stdin);
     CLIENTE cliente;
-    dadosCliente = fopen("dadosCliente.txt", "rb");
+    dadosCliente = fopen("dadosCliente.txt", "r");
     if(dadosCliente == NULL){
         printf("Problemas na abertura do arquivo\n");
     }else{
