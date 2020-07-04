@@ -13,7 +13,7 @@ struct cliente{
 
 //structs
 
-//funçõess
+//funções
 
 void menuPrincipal(){ //primeira tela do programa
     int opcao;
@@ -71,7 +71,7 @@ void saque(){ //sacar dinheiro
         fflush(stdin);
         printf("Digite o nome a pesquisar: ");
         gets(nome);
-
+        int cont=0;
         while(fread(&cliente, sizeof(CLIENTE), 1, dadosCliente) == 1){
             if(strcmp(nome, cliente.nome) == 0){
                 printf("Nome: %s\n", cliente.nome);
@@ -82,15 +82,19 @@ void saque(){ //sacar dinheiro
                     if(saque > cliente.saldo){
                         printf("Voce nao tem tudo isso de dinheiro");
                     }else{
-                        dadosCliente = fopen("dadosCliente.txt", "w+b");
+                        dadosCliente = fopen("dadosCliente.txt", "r+b");
+                        fseek(dadosCliente, cont*sizeof(CLIENTE), SEEK_SET);
                         cliente.saldo = cliente.saldo - saque;
                         fwrite(&cliente, sizeof(CLIENTE),1, dadosCliente);
                         printf("Seu saldo atual e: %.2f", cliente.saldo);
                         fflush(stdin);
+                        fclose(dadosCliente);
                     }
             }
+            cont++;
         }
-    }fclose(dadosCliente);
+    }
+    fclose(dadosCliente);
     getch();
     system("cls");
 }
@@ -101,29 +105,32 @@ void deposito(){ //depositar dinheiro
     FILE* dadosCliente;
     float deposito;
     char nome[50];
-    dadosCliente = fopen("dadosCliente.txt", "r+b");
+    dadosCliente = fopen("dadosCliente.txt", "rb");
     if(dadosCliente == NULL){
         printf("Problemas na abertura do arquivo\n");
     }else{
         fflush(stdin);
         printf("Digite o nome a pesquisar: ");
         gets(nome);
-
+        int cont=0;
         while(fread(&cliente, sizeof(CLIENTE), 1, dadosCliente) == 1){
             if(strcmp(nome, cliente.nome) == 0){
                 printf("Nome: %s\n", cliente.nome);
                 printf("CPF: %s \n", cliente.cpf);
                 printf("Saldo: %.2f\n", cliente.saldo);
-                dadosCliente = fopen("dadosCliente.txt", "w+b");
+                dadosCliente = fopen("dadosCliente.txt", "r+b");
+                fseek(dadosCliente, cont*sizeof(CLIENTE), SEEK_SET);
                 printf("Gostaria de depositar quanto?\n");
                 scanf("%f", &deposito);
                 cliente.saldo = cliente.saldo + deposito;
                 fwrite(&cliente, sizeof(CLIENTE),1, dadosCliente);
                 printf("Seu saldo atual e: %.2f", cliente.saldo);
                 fflush(stdin);
-            };
-        };
-    };
+                fclose(dadosCliente);
+            }
+            cont++;
+        }
+    }
     fclose(dadosCliente);
     getch();
     system("cls");
@@ -167,7 +174,7 @@ void verificar(){ //para teste
     FILE * dadosCliente;
     fflush(stdin);
     CLIENTE cliente;
-    dadosCliente = fopen("dadosCliente.txt", "r");
+    dadosCliente = fopen("dadosCliente.txt", "rb");
     if(dadosCliente == NULL){
         printf("Problemas na abertura do arquivo\n");
     }else{
